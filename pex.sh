@@ -75,36 +75,40 @@ load_config(){
         echo "$PWD/config.ini does not exist."
         # echo "" >> "$PWD/config.ini"
         create_config
-    else
-        cfg.parser "$PWD/config.ini"
-        cfg.section.directories
-        cfg.section.repo
     fi
+    cfg.parser "$PWD/config.ini"
+    cfg.section.directories
+    cfg.section.repo
 }
 
 create_config(){
     clear
     log "Creating new Config..." "info"
 
-    # shellcheck disable=SC2162
+
     read -p "New Base Directory [$PWD]: " new_base_directory
     [ -z "$new_base_directory" ] && new_base_directory="$PWD"
-    # shellcheck disable=SC2016
+    log "new_base_directory $new_base_directory" "debug"
+
+
     read -p 'Paper Source [$PWD/src/Paper]: ' new_paper_directory
     [ -z "$new_paper_directory" ] && new_paper_directory="$PWD/src/Paper"
+    log "new_paper_directory $new_paper_directory" "debug"
 
     read -p 'Git Username: ' new_git_username
     read -p 'Git EMail: ' new_git_email
+    log "new_git_username $new_git_username" "debug"
+    log "new_git_email $new_git_email" "debug"
 
-    echo -e "[directories]"
-    echo -e "base_dir=\"$new_base_directory\""
-    echo -e "paper_src_dir=\"$new_paper_directory\""
-    echo -e "\n"
-    echo -e "[repo]"
-    echo -e "repo_url=\"https://github.com/cyphexd/Paper\""
+    echo "[directories]" >> "$PWD/config.ini"
+    echo "base_dir=\"$new_base_directory\"" >> "$PWD/config.ini"
+    echo "paper_src_dir=\"$new_paper_directory\"" >> "$PWD/config.ini"
+    echo "" >> "$PWD/config.ini"
+    echo "[repo]" >> "$PWD/config.ini"
+    echo "repo_url=\"https://github.com/cyphexd/Paper\"" >> "$PWD/config.ini"
     # shellcheck disable=SC2027
-    echo -e "git_username="$new_git_username""
-    echo -e "git_email=\"$new_git_email\""
+    echo "git_username="$new_git_username"" >> "$PWD/config.ini"
+    echo "git_email=\"$new_git_email\"" >> "$PWD/config.ini"
 
 
 }

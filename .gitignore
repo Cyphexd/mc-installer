@@ -2,3 +2,4 @@ src
 server
 test.sh
 .ident
+/config.ini
