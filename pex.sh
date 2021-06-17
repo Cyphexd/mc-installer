@@ -94,7 +94,8 @@ main(){
     log "config.repo.git_username => $git_username" "debug"
     log "config.repo.git_email => $git_email" "debug"
 
-    while [ true ]; do
+    while true
+    do
         print_main_menu
         #clear
         case $main_menu_option in
