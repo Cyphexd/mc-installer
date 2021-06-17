@@ -70,11 +70,49 @@ cfg.parser () {
     eval "$(echo "${ini[*]}")"               # eval the result
 }
 
+load_config(){
+    if [ ! -f "$PWD/config.ini" ]; then
+        echo "$PWD/config.ini does not exist."
+        # echo "" >> "$PWD/config.ini"
+        create_config
+    else
+        cfg.parser "$PWD/config.ini"
+        cfg.section.directories
+        cfg.section.repo
+    fi
+}
+
+create_config(){
+    clear
+    log "Creating new Config..." "info"
+
+    # shellcheck disable=SC2162
+    read -p "New Base Directory [$PWD]: " new_base_directory
+    [ -z "$new_base_directory" ] && new_base_directory="$PWD"
+    # shellcheck disable=SC2016
+    read -p 'Paper Source [$base_dir/src/Paper]: ' new_paper_directory
+    [ -z "$new_paper_directory" ] && new_paper_directory="\$base_dir/src/Paper"
+
+    read -p 'Git Username: ' new_git_username
+    read -p 'Git EMail: ' new_git_email
+
+    echo -e "[directories]"
+    echo -e "base_dir=\"$new_base_directory\""
+    echo -e "paper_src_dir=\"$new_paper_directory\""
+    echo -e "\n"
+    echo -e "[repo]"
+    echo -e "repo_url=\"https://github.com/cyphexd/Paper\""
+    # shellcheck disable=SC2027
+    echo -e "git_username="$new_git_username""
+    echo -e "git_email=\"$new_git_email\""
+
+
+}
+
 main(){
+    load_config
     # loading config
-    cfg.parser "$PWD/config.ini"
-    cfg.section.directories
-    cfg.section.repo
+
 	REQUIREMENTS=(
 	    'git' 'curl' 'patch' 'adoptopenjdk-11-openj9' 'maven' 'htop'
 	)
