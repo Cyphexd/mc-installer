@@ -48,7 +48,7 @@ print_main_menu(){
     clear
     echo -e "*** Minimal Minecraft Server Management Tool v0.0.1 by Pex ***\n"
     echo -e " 0) Clone and Compile PaperMC 1.16.5"
-    echo -e " 1) Compile PaperMC"
+    echo -e " 1) Run paper (build, rebuild, clean, ..)"
 
     # shellcheck disable=SC2034
     read -p "Enter option: " main_menu_option
@@ -152,9 +152,28 @@ main(){
           ;;
         1)
             clear
-            log "Building PaperMC jars..." "info"
-            sleep 3
-            bash -c "$paper_src_dir/paper jar"
+            read -p "Enter paper param: " main_paper_param
+            case $main_paper_param in
+            'build')
+              log "Building Paper..." "info"
+              bash -c "$paper_src_dir/paper build"
+                ;;
+            'rebuild')
+              log "Rebuilding Paper..." "info"
+              bash -c "$paper_src_dir/paper rebuild"
+                ;;
+            'jar')
+              log "Building Paper jars..." "info"
+              bash -c "$paper_src_dir/paper jar"
+                ;;
+            'clean')
+              log "Cleaning Paper..." "info"
+              bash -c "$paper_src_dir/paper clean"
+                ;;
+            *)
+                log "invalid parameter!" "info"
+                ;;
+            esac
             ;;
         esac
         #clear
