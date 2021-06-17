@@ -143,7 +143,7 @@ main(){
         case $main_menu_option in
         0)
             log "Cloning PaperMC into $paper_src_dir" "info"
-            git clone "$repo_url" "$paper_src_dir" > /dev/null 2>&1
+            git clone "$repo_url" "$paper_src_dir"
             chmod +x "$paper_src_dir/paper"
             clear
             log "Building PaperMC jars..." "info"
